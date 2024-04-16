@@ -1,0 +1,30 @@
+name: Publish release
+on:
+  release:
+    types: [published]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    env:
+      # We use test settings to avoid the need to provide actual parameters
+      DJANGO_SETTINGS_MODULE: ubbc.test_settings
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Save release version
+        run: echo "${{ github.event.release.tag_name }}" > VERSION
+
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install python requirements
+        run: |
+          python -m venv ./venv/
+          ./venv/bin/python -m pip install --upgrade pip wheel setuptools
+          ./venv/bin/python -m pip install -r requirements.txt

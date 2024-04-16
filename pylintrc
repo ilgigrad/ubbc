@@ -1,0 +1,10 @@
+[MASTER]
+
+init-hook='import sys; sys.path.append("apps")'
+
+disable=
+    C0111,C0114,C0115,C0116, # missing docstrings (module, class, function)
+    W503, # line break before binary operator (black does it like this)
+    no-self-use,
+    too-few-public-methods,
+    too-many-ancestors
